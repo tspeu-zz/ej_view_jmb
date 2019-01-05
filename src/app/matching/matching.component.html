@@ -1,0 +1,30 @@
+
+<div class="card">
+  <h3>MATCHING SHIFTS/WORKERS</h3>
+  <ul *ngIf="matching > 0">
+    <li *ngFor="let w of matching; index as i">
+      Worker ID:{{ w.idWorker  }}
+      payRate:<span class="badge badge-secondary"> {{ w.payrate }}</span>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          DAY SHIFT : {{ w.shift }}
+        </li>
+      </ol>
+
+
+    </li>
+  </ul>
+</div>
+
+<div>
+  <button type="button"
+  class="btn btn-primary btn-lg"
+  (click)="sendDataPost()">Match Workers</button>
+</div>
+
+<h3 *ngIf="this.msmOK">ERRO {{ this.msmOK }}</h3>
+
+<div class="alert alert-success mt-2" role="alert" [hidden]="show">
+    | FROM THE SERVER API | {{this.msmOK }} |  {{this.msmERR}} |
+</div>
+
