@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {MatSnackBar} from '@angular/material';
 import {HttpService} from '../services/http.service';
 
@@ -70,26 +69,26 @@ export class MatchingComponent implements OnInit {
   ];
   data = {
     'workers': [
-      // {
-      //   'id': 1,
-      //   'availability': ['Monday', 'Wednesday'],
-      //   'payrate': 7.50
-      // },
-      // {
-      //   'id': 2,
-      //   'availability': ['Monday', 'Tuesday', 'Thursday'],
-      //   'payrate': 9.00
-      // },
-      // {
-      //   'id': 3,
-      //   'availability': ['Monday', 'Friday'],
-      //   'payrate': 18.00
-      // },
-      // {
-      //   'id': 4,
-      //   'availability': ['Monday', 'Tuesday', 'Friday'],
-      //   'payrate': 12.25
-      // }
+      {
+        'id': 1,
+        'availability': ['Monday', 'Wednesday'],
+        'payrate': 7.50
+      },
+      {
+        'id': 2,
+        'availability': ['Monday', 'Tuesday', 'Thursday'],
+        'payrate': 9.00
+      },
+      {
+        'id': 3,
+        'availability': ['Monday', 'Friday'],
+        'payrate': 18.00
+      },
+      {
+        'id': 4,
+        'availability': ['Monday', 'Tuesday', 'Friday'],
+        'payrate': 12.25
+      }
     ],
     'shifts': [
       {
@@ -111,7 +110,8 @@ export class MatchingComponent implements OnInit {
     ]
   };
 
-  constructor(private http: HttpClient, public snackBar: MatSnackBar, private httpService: HttpService) { }
+  constructor(public snackBar: MatSnackBar,
+              private httpService: HttpService) { }
 
   ngOnInit() {
 
@@ -121,42 +121,45 @@ export class MatchingComponent implements OnInit {
 
   sendDataPost() {
 
-  return this.httpService.sendPost(this.data, this._URL)
-                  .subscribe(resp => {
-                      this._RESPONSE = resp;
-                      this.matching = this._RESPONSE.res;
-                      this.msmOK = resp.msm;
-                      this.msmERR = resp.err;
-                      console.log('VUELTA DEL SERVER- API:>', this.matching);
-                      console.log('VUELTA DEL SERVER- API:>' , this._RESPONSE);
-                      console.log('msmOK', this.msmOK);
-                      this.openSnackBar(this.msmERR  , 'close');
-                      this.show = true;
-                    }, error => { console.log(error);
-                  });
-
-
+  return this.httpService
+          .sendPost(this.data, this._URL)
+          .subscribe(resp => {
+              this._RESPONSE = resp;
+              this.matching = this._RESPONSE.res;
+              this.msmOK = this._RESPONSE.msm;
+              this.msmERR = this._RESPONSE.err;
+              console.log('VUELTA DEL SERVER- API:>', this.matching);
+              console.log('VUELTA DEL SERVER- API:>' , this._RESPONSE);
+              console.log('msmOK', this.msmOK);
+              this.openSnackBar(this.msmERR  , 'close');
+              this.show = true;
+            }, error => { console.log(error);
+          });
   }
 
-  sendPostTestOLD(testData: any) {
-
-    // const body = JSON.stringify(testData);
-    const body = testData;
-    console.log('send data--> ', body);
-    const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-    return this.http.post(this._URL, body, {headers: headerOptions})
-      .subscribe( res => {
-
-        this._RESPONSE = res;
-        console.log('VUELTA DEL SERVER- API:>' , this._RESPONSE);
-        this.openSnackBar( this._RESPONSE.res , 'close');
-        this.show = true;
-
-      }, error => { console.log(error);
-      });
-
+  addWorkers(data) {
+    console.log('add work --->', data);
   }
+
+  // sendPostTestOLD(testData: any) {
+
+  //   // const body = JSON.stringify(testData);
+  //   const body = testData;
+  //   console.log('send data--> ', body);
+  //   const headerOptions = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+  //   return this.http.post(this._URL, body, {headers: headerOptions})
+  //     .subscribe( res => {
+
+  //       this._RESPONSE = res;
+  //       console.log('VUELTA DEL SERVER- API:>' , this._RESPONSE);
+  //       this.openSnackBar( this._RESPONSE.res , 'close');
+  //       this.show = true;
+
+  //     }, error => { console.log(error);
+  //     });
+
+  // }
 
   openSnackBar(message, action ) {
 
