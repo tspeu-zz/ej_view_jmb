@@ -150,7 +150,7 @@ export class MatchingComponent implements OnInit {
     return validator;
   }
 
-  sendDataPost(data) {
+  sendDataPost(data: any) {
     // this.selectedWorkers = this.matchingGroup.value;
   // console.log('--ENVIA ----->', data);
   return this.httpService
@@ -162,8 +162,8 @@ export class MatchingComponent implements OnInit {
               this.msmERR = this._RESPONSE.err;
               // console.log('VUELTA DEL SERVER- API: <------', this.matching);
               // console.log('VUELTA DEL SERVER- API: <------' , this._RESPONSE);
-              // console.log('msmOK', this.msmOK);
-              this.openSnackBar(this.msmERR  , 'close');
+              console.log('msmOK', this.msmOK);
+              this.openSnackBar(this.msmOK + '' + this.msmERR   , 'close');
               this.show = true;
               this.cleanForm();
             }, error => { console.log(error);
