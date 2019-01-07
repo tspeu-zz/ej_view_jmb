@@ -41,10 +41,10 @@
 </div>
 
 
-<h3 *ngIf="this.msmOK">ERROR {{ this.msmOK }}</h3>
+  <h3 class="alert alert-light mt-2"  *ngIf="this.msmOK"> {{ this.msmOK }}</h3>
 
-<div class="alert alert-success mt-2" role="alert" [hidden]="show">
-    | FROM THE SERVER API | {{this.msmOK }} |  {{this.msmERR}} |
-</div>
+  <div class="alert alert-success mt-2" role="alert" [hidden]="show">
+      | FROM THE SERVER API | {{this.msmOK }} |  {{this.msmERR}} |
+  </div>
 </div>
 

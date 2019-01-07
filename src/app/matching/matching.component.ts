@@ -163,7 +163,8 @@ export class MatchingComponent implements OnInit {
               // console.log('VUELTA DEL SERVER- API: <------', this.matching);
               // console.log('VUELTA DEL SERVER- API: <------' , this._RESPONSE);
               console.log('msmOK', this.msmOK);
-              this.openSnackBar(this.msmOK + '' + this.msmERR   , 'close');
+              if (this.msmOK !== '' ) {this.openSnackBar( this.msmERR + ' ' + this.msmOK  , 'close');}
+
               this.show = true;
               this.cleanForm();
             }, error => { console.log(error);
