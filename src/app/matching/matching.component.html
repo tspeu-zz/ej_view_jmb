@@ -2,7 +2,7 @@
     <div class="form-group col-md-6">
         <label for="inputState">Select Workers</label>
 
-    <label formArrayName="orders" *ngFor="let order of form.controls.orders.controls; let i = index">
+    <label formArrayName="workers" *ngFor="let order of form.controls.workers.controls; let i = index">
       <input type="checkbox" [formControlName]="i">
       id: {{data.workers[i].id}}
       DAYS: {{data.workers[i].availability | json}}

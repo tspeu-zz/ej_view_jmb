@@ -92,15 +92,15 @@ export class MatchingComponent implements OnInit {
     // console.log('controls', controls);
 
     this.form = this.formBuilder.group({
-      orders: new FormArray(controls, this.minSelectedCheckboxes(1))
+      workers: new FormArray(controls, this.minSelectedCheckboxes(1))
     });
-    // console.log('this.form', this.form);
+    console.log('this.form', this.form);
   }
 
   ngOnInit() {/* this.postData(this.data);*/}
 
   onSubmit() {
-    const selectedOrderIds = this.form.value.orders
+    const selectedOrderIds = this.form.value.workers
       .map((v, i) => v ? this.data.workers[i].id : null)
       .filter(v => v !== null);
 
