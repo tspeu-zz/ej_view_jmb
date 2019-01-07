@@ -1,97 +1,50 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-group col-md-6">
-        <label for="inputState">Select Workers</label>
-
-    <label formArrayName="workers" *ngFor="let order of form.controls.workers.controls; let i = index">
-      <input type="checkbox" [formControlName]="i">
-      id: {{data.workers[i].id}}
-      DAYS: {{data.workers[i].availability | json}}
-    </label>
-
-    </div>
-
-    <div *ngIf="!form.valid">At least one order must be selected</div>
-    <br>
-    <button [disabled]="!form.valid">Matching Shifts</button>
-  </form>
-
-
-
-<!-- <form [formGroup]="matchingForm" (ngSubmit)="onSubmit()">
+<div class="py-3">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" >
     <div class="form-row">
+    <div class="form-group col-md-6">
+        <label for="inputState"><h3>Select Shifts:</h3></label>
+          <div class="list-group">
+            <label formArrayName="shifts" *ngFor="let order of form.controls.shifts.controls; let i = index">
+              <input type="checkbox" [formControlName]="i">
+
+              <strong>DAY:</strong> {{ data.shifts[i].day | json}}
+            </label>
+          </div>
+      </div>
       <div class="form-group col-md-6">
-        <label for="inputState">Select Workers</label>
-        <div class="list-group-item" *ngFor="let worker of data.workers">
-            <div class="form-check">
-              <input class="form-check-input"
-              type="checkbox" id="gridCheck">
-
-              <label>
-                Worker id:{{ worker.id }}
-                <input formControlName="workId" type="text"
-                value="worker.id">
-              </label>
-
-              <label>
-                {{worker.availability}}
-                <input class="form-check-label"or="gridCheck"
-                type="text" formControlName="availability">
-              </label>
-
-            </div>
+        <label for="inputState"><h3>Select Workers:</h3></label>
+        <div class="list-group">
+          <label formArrayName="workers" *ngFor="let order of form.controls.workers.controls; let i = index">
+            <input type="checkbox" [formControlName]="i">
+            <strong> Worker ID: </strong>  {{data.workers[i].id}}&nbsp;&nbsp;|
+            <strong>Day Available:</strong> &nbsp;{{data.workers[i].availability | json}}
+          </label>
         </div>
       </div>
 
 
-
-      <div class="form-group col-md-6">
-          <label for="inputState">Select SHIFTS</label>
-          <div class="list-group-item" *ngFor="let s of data.shifts">
-              <p >SHIFT id: {{ s.id }} </p>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="gridCheck">
-                  <label class="form-check-label" for="gridCheck">
-                    {{s.day}}
-                  </label>
-                </div>
-          </div>
-      </div>
-
-    </div>
-
-        <button type="submit"
-        class="btn btn-primary"
-        (click)="sendDataPost(matchingGroup)">ADD WORKER</button>
-
-
-</form> -->
-
-<div class="card">
-  <h3>MATCHING SHIFTS/WORKERS</h3>
-  <ul *ngIf="matching ">
-    <li *ngFor="let w of matching; index as i">
-      Worker ID:{{ w.idWorker  }}
-      payRate:<span class="badge badge-secondary"> {{ w.payrate }}</span>
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          DAY SHIFT : {{ w.shift }}
-        </li>
-      </ol>
-
-
+    <button [disabled]="!form.valid" class="btn btn-primary btn-lg">Matching Shifts</button>
+    &nbsp;&nbsp;
+    <div *ngIf="!form.valid">At least one worker|shift must be selected</div>
+  </div>
+  </form>
+<br>
+<div class="card  col-md-8" *ngIf="matching">
+  <h3>MATCHING SHIFTS & WORKERS</h3>
+  <ul>
+    <li *ngFor="let w of matching; index as i" class="breadcrumb">
+      <strong>Worker ID:</strong> &nbsp;&nbsp;{{ w.idWorker  }} |&nbsp;&nbsp;
+      <strong>Day: </strong>&nbsp;&nbsp; {{ w.shift }} |&nbsp;&nbsp;
+      <strong>Payrate:</strong>&nbsp;&nbsp;<span class="badge badge-secondary">&nbsp; {{ w.payrate }}</span>&nbsp;&nbsp;
     </li>
   </ul>
 </div>
 
-<div>
-  <button type="button"
-  class="btn btn-primary btn-lg"
-  (click)="sendDataPost()">Match Workers</button>
-</div>
 
-<h3 *ngIf="this.msmOK">ERRO {{ this.msmOK }}</h3>
+<h3 *ngIf="this.msmOK">ERROR {{ this.msmOK }}</h3>
 
 <div class="alert alert-success mt-2" role="alert" [hidden]="show">
     | FROM THE SERVER API | {{this.msmOK }} |  {{this.msmERR}} |
+</div>
 </div>
 

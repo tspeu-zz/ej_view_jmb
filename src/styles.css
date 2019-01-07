@@ -18,3 +18,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
 .primary-text-color    { color: #212121; }
 .secondary-text-color  { color: #757575; }
 .divider-color         { border-color: #BDBDBD; }
+
+main > .container {
+  padding: 60px 15px 0;
+}
+
+.footer {
+
+  font-size: 80%;
+  text-align: right;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+
