@@ -9,7 +9,10 @@
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
 /* // `.unicorn-dark-theme` will be affected by this alternate dark theme instead of the default theme. */
 
-
+.nav-app {
+  background: #E6E7E8;
+  color: #616161;
+}
 .dark-primary-color    { background: rgb(5, 167, 241); }
 .default-primary-color { background: rgb(4, 123, 182); }
 .light-primary-color   { background: #CFD8DC; }

@@ -11,7 +11,8 @@ import {HttpService} from '../services/http.service';
 })
 export class MatchingComponent implements OnInit {
 
-  _URL = 'http://localhost:3003/api/matching/match';
+  // _URL = 'http://localhost:3003/api/matching/match';
+  _URL = 'http://prueba-api-jmb.herokuapp.com/api/matching/match';
   _RESPONSE: any;
   matching: any;
   show = true;
