@@ -1,17 +1,17 @@
 <div class="py-3">
 <form [formGroup]="form" (ngSubmit)="onSubmit()" >
     <div class="form-row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-4">
         <label for="inputState"><h3>Select Shifts:</h3></label>
           <div class="list-group">
             <label formArrayName="shifts" *ngFor="let order of form.controls.shifts.controls; let i = index">
               <input type="checkbox" [formControlName]="i">
 
-              <strong>DAY:</strong> {{ data.shifts[i].day | json}}
+              <strong>DAY:</strong> {{ data.shifts[i].day | json }}
             </label>
           </div>
       </div>
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-8">
         <label for="inputState"><h3>Select Workers:</h3></label>
         <div class="list-group">
           <label formArrayName="workers" *ngFor="let order of form.controls.workers.controls; let i = index">

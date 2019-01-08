@@ -155,19 +155,23 @@ export class MatchingComponent implements OnInit {
   // console.log('--ENVIA ----->', data);
   return this.httpService
           .sendPost(data, this._URL)
-          .subscribe(resp => {
+          .subscribe( resp => {
               this._RESPONSE = resp;
               this.matching = this._RESPONSE.res;
               this.msmOK = this._RESPONSE.msm;
               this.msmERR = this._RESPONSE.err;
-              // console.log('VUELTA DEL SERVER- API: <------', this.matching);
+              console.log('VUELTA DEL SERVER- API: <------', this.matching);
               // console.log('VUELTA DEL SERVER- API: <------' , this._RESPONSE);
               console.log('msmOK', this.msmOK);
-              if (this.msmOK !== '' ) {this.openSnackBar( this.msmERR + ' ' + this.msmOK  , 'close');}
+              if (this.msmOK !== '' ) {this.openSnackBar( this.msmERR + ' ' + this.msmOK  , 'close'); }
 
               this.show = true;
               this.cleanForm();
-            }, error => { console.log(error);
+            }, error => {
+              console.log('error', error);
+              this.msmOK = JSON.stringify(error.message);
+              this.msmERR = JSON.stringify(error.message);
+              this.openSnackBar(this.msmERR, 'close');
           });
     // console.log(data);
   }
