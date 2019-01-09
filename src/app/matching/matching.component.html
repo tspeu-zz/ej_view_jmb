@@ -34,14 +34,9 @@
 </form>
 
 <br>
-<<<<<<< HEAD
-<div class="card  col-md-10" *ngIf="matching">
-  <h3>MATCHING SHIFTS & WORKERS</h3>
-=======
 
 <div class="card  col-md-8" *ngIf="!this.msmERR">
   <h3>OPTIMAL MATCHING:</h3>
->>>>>>> cf7a2be359c0f85f340993d98b85c8e3f013eadd
   <ul>
     <li *ngFor="let w of matching; index as i" class="breadcrumb">
       <strong>Worker ID:</strong> &nbsp;&nbsp;{{ w.idWorker  }} |&nbsp;&nbsp;

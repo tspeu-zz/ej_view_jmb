@@ -10,11 +10,13 @@ import { MatInputModule , MatProgressSpinnerModule} from '@angular/material';
 import { AppComponent } from './app.component';
 import { MatchingComponent } from './matching/matching.component';
 import { HttpService } from './services/http.service';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MatchingComponent
+    MatchingComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,

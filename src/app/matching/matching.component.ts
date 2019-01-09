@@ -14,7 +14,7 @@ import {HttpService} from '../services/http.service';
 export class MatchingComponent implements OnInit {
 
   // _URL = 'http://localhost:3003/api/matching/match';
-  _URL = 'http://prueba-api-jmb.herokuapp.com/api/matching/match';
+  _URL = 'https://prueba-api-jmb.herokuapp.com/api/matching/match';
   _RESPONSE: any;
   matching: any;
   show = true;
@@ -154,11 +154,6 @@ export class MatchingComponent implements OnInit {
   }
 
   sendDataPost(data: any) {
-<<<<<<< HEAD
-    // this.selectedWorkers = this.matchingGroup.value;
-  console.log('--ENVIA ----->', data);
-=======
->>>>>>> cf7a2be359c0f85f340993d98b85c8e3f013eadd
   return this.httpService
         .sendPost(data, this._URL)
         .subscribe( resp => {
