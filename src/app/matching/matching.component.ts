@@ -3,6 +3,8 @@ import { map } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray, ValidatorFn } from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {HttpService} from '../services/http.service';
+// import * as example_1 from '../model/example_1.json';
+// import * as example_2 from '../model/example_2.json';
 
 @Component({
   selector: 'app-matching',
@@ -19,90 +21,90 @@ export class MatchingComponent implements OnInit {
   msmOK: any;
   msmERR: any;
 
-  testdata = {
-    'workers': [],
-    'shifts' : []
-    };
+  workers: any;
+  shifts: any;
 
-    workers: any;
-    shifts: any;
-
+  /* INPUT DATA */
+  // data1: any = example_1;
+  // data: any = example_2;
   data = {
     'workers': [
       {
-        'id': 1,
-        'availability': ['Monday', 'Wednesday'],
-        'payrate': 7.50
-      },
-      {
-        'id': 2,
-        'availability': ['Monday', 'Tuesday', 'Thursday'],
-        'payrate': 9.00
-      },
-      {
-        'id': 3,
-        'availability': ['Monday', 'Friday'],
-        'payrate': 18.00
-      },
-      {
-        'id': 4,
-        'availability': ['Monday', 'Tuesday', 'Friday'],
-        'payrate': 12.25
-      }
-    ],
-    'shifts': [
-      {
-        'id': 1,
-        'day': ['Monday']
-      },
-      {
-        'id': 2,
-        'day': ['Tuesday']
-      },
-      {
-        'id': 3,
-        'day': ['Wednesday']
-      },
-      {
-        'id': 4,
-        'day': ['Thursday']
-      }
-    ]
-  };
+      'id': 1,
+      'availability': ['Monday', 'Wednesday'],
+      'payrate': 7.50
+    },
+    {
+      'id': 2,
+      'availability': ['Monday', 'Tuesday', 'Thursday'],
+      'payrate': 9.00
+    },
+    {
+      'id': 3,
+      'availability': ['Monday', 'Friday'],
+      'payrate': 18.00
+    },
+    {
+      'id': 4,
+      'availability': ['Monday', 'Tuesday', 'Thursday'],
+      'payrate': 12.25
+    }
+  ],
+  'shifts': [
+    {
+      'id': 1,
+      'day': ['Monday']
+    },
+    {
+      'id': 2,
+      'day': ['Tuesday']
+    },
+    {
+      'id': 3,
+      'day': ['Wednesday']
+    },
+    {
+      'id': 4,
+      'day': ['Thursday']
+    }
+    ,
+    {
+      'id': 5,
+      'day': ['Friday']
+    }
+  ]};
 
-  // orders = [
-  //   { id: 100, name: 'order 1' },
-  //   { id: 200, name: 'order 2' },
-  //   { id: 300, name: 'order 3' },
-  //   { id: 400, name: 'order 4' }
-  // ];
-  selectedWorkers: any = [];
-  selectedShifts: any = [];
-
-  // SEND DATA TO API
-  outData = { 'workers': [], 'shifts': [] };
+  // OUT
+  sendData = { 'workers': [], 'shifts': [] };
 
   matchingForm: FormGroup;
   form: FormGroup;
+  shiftControl: any;
+  workerControl: any;
 
   constructor(public snackBar: MatSnackBar, private httpService: HttpService,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder ) {
 
     const controls = this.data.workers.map(c => new FormControl(false));
     controls[0].setValue(true);
 
     const controlsShift = this.data.workers.map(c => new FormControl(false));
     controls[0].setValue(true);
-    // console.log('controls', controls);
 
     this.form = this.formBuilder.group({
       workers: new FormArray(controls, this.minSelectedCheckboxes(1)),
       shifts: new FormArray(controlsShift, this.minSelectedCheckboxes(1))
     });
-    console.log('this.form', this.form);
+    // console.log('this.form controls-> ', this.form.controls);
+
+    this.shiftControl = this.form.controls.shifts;
+    // console.log('this.shiftControl > ', this.shiftControl);
+    this.workerControl = this.form.controls.workers;
+    // console.log('this.workerControl > ', this.workerControl);
+
   }
 
-  ngOnInit() {/* this.postData(this.data);*/}
+  ngOnInit() {/* this.sendDataPost(this.data);*/}
 
   onSubmit() {
     const selectedOrderIds = this.form.value.workers
@@ -113,14 +115,13 @@ export class MatchingComponent implements OnInit {
       .map((v, i) => v ? this.data.shifts[i].id : null)
       .filter(v => v !== null);
 
-    // console.log('selectedOrderIdsShift->', selectedOrderIdsShift);
-
+// TODO REFACTOR
     for (let i = 0; i < this.data.workers.length; i++) {
         // console.log('workers', this.data.workers[i]);
         for ( let j = 0; j < selectedOrderIds.length; j++ ) {
             // console.log('select', selectedOrderIds[j]);
             if (this.data.workers[i].id === selectedOrderIds[j]) {
-              this.outData.workers.push(this.data.workers[i]);
+              this.sendData.workers.push(this.data.workers[i]);
               // console.log('DEBE HACER PUSH A LOS QUE SE ENVIA->', this.data.workers[i] );
             }
         }
@@ -131,13 +132,14 @@ export class MatchingComponent implements OnInit {
         for ( let j = 0; j < selectedOrderIdsShift.length; j++ ) {
             // console.log('select', selectedOrderIds[j]);
             if (this.data.shifts[i].id === selectedOrderIdsShift[j]) {
-              this.outData.shifts.push(this.data.shifts[i]);
+              this.sendData.shifts.push(this.data.shifts[i]);
               // console.log('DEBE HACER PUSH A LOS QUE SE ENVIA->', this.data.shifts[i] );
             }
         }
     }
-    // console.log('this.outData.workers', this.outData);
-    this.sendDataPost(this.outData);
+    // console.log('this.sendData.workers', this.sendData);
+    this.sendDataPost(this.sendData);
+    this.cleanForm();
   }
 
   minSelectedCheckboxes(min = 1) {
@@ -152,33 +154,33 @@ export class MatchingComponent implements OnInit {
   }
 
   sendDataPost(data: any) {
+<<<<<<< HEAD
     // this.selectedWorkers = this.matchingGroup.value;
   console.log('--ENVIA ----->', data);
+=======
+>>>>>>> cf7a2be359c0f85f340993d98b85c8e3f013eadd
   return this.httpService
-          .sendPost(data, this._URL)
-          .subscribe( resp => {
-              this._RESPONSE = resp;
-              this.matching = this._RESPONSE.res;
-              this.msmOK = this._RESPONSE.msm;
-              this.msmERR = this._RESPONSE.err;
-              console.log('VUELTA DEL SERVER- API: <------', this.matching);
-              // console.log('VUELTA DEL SERVER- API: <------' , this._RESPONSE);
-              console.log('msmOK', this.msmOK);
-              if (this.msmOK !== '' ) {this.openSnackBar( this.msmERR + ' ' + this.msmOK  , 'close'); }
-
+        .sendPost(data, this._URL)
+        .subscribe( resp => {
+            this._RESPONSE = resp;
+            this.matching = this._RESPONSE.res;
+            this.msmOK = this._RESPONSE.msm;
+            this.msmERR = this._RESPONSE.err;
+              if (this.msmOK !== '' ) {this.openSnackBar( this.msmERR, 'close'); }
               this.show = true;
               this.cleanForm();
             }, error => {
               console.log('error', error);
+              this.show = false;
               this.msmOK = JSON.stringify(error.message);
               this.msmERR = JSON.stringify(error.message);
               this.openSnackBar(this.msmERR, 'close');
           });
-    // console.log(data);
+
   }
 
   cleanForm() {
-    this.outData = { 'workers': [], 'shifts': [] };
+    this.sendData = { 'workers': [], 'shifts': [] };
   }
 
 
@@ -188,22 +190,20 @@ export class MatchingComponent implements OnInit {
       panelClass: 'success-dialog'
     });
     setTimeout(() => {
-      // this.vehicleForm.reset();
         this.show = true;
       }, 3500);
 
   }
 
 }
-function minSelectedCheckboxes(min = 1) {
-  const validator: ValidatorFn = (formArray: FormArray) => {
-    const totalSelected = formArray.controls
-      .map(control => control.value)
-      .reduce((prev, next) => next ? prev + next : prev, 0);
+// function minSelectedCheckboxes(min = 1) {
+//   const validator: ValidatorFn = (formArray: FormArray) => {
+//     const totalSelected = formArray.controls
+//       .map(control => control.value)
+//       .reduce((prev, next) => next ? prev + next : prev, 0);
 
-    return totalSelected >= min ? null : { required: true };
+//     return totalSelected >= min ? null : { required: true };
 
-  };
-  return validator;
-}
-
+//   };
+//   return validator;
+// }

@@ -4,7 +4,8 @@
     <div class="form-group col-md-4">
         <label for="inputState"><h3>Select Shifts:</h3></label>
           <div class="list-group">
-            <label formArrayName="shifts" *ngFor="let order of form.controls.shifts.controls; let i = index">
+            <label formArrayName="shifts" *ngFor="let order of shiftControl.controls; let i = index">
+
               <input type="checkbox" [formControlName]="i">
 
               <strong>DAY:</strong> {{ data.shifts[i].day | json }}
@@ -14,7 +15,9 @@
       <div class="form-group col-md-8">
         <label for="inputState"><h3>Select Workers:</h3></label>
         <div class="list-group">
-          <label formArrayName="workers" *ngFor="let order of form.controls.workers.controls; let i = index">
+
+          <label formArrayName="workers" *ngFor="let order of workerControl.controls; let i = index">
+
             <input type="checkbox" [formControlName]="i">
             <strong> Worker ID: </strong>  {{data.workers[i].id}}&nbsp;&nbsp;|
             <strong>Day Available:</strong> &nbsp;{{data.workers[i].availability | json}}
@@ -25,26 +28,37 @@
 
     <button [disabled]="!form.valid" class="btn btn-primary btn-lg">Matching Shifts</button>
     &nbsp;&nbsp;
-    <div *ngIf="!form.valid">At least one worker|shift must be selected</div>
+
+    <div *ngIf="!form.valid"><p class="alert-danger">At least one worker/shift must be selected</p></div>
   </div>
-  </form>
+</form>
+
 <br>
+<<<<<<< HEAD
 <div class="card  col-md-10" *ngIf="matching">
   <h3>MATCHING SHIFTS & WORKERS</h3>
+=======
+
+<div class="card  col-md-8" *ngIf="!this.msmERR">
+  <h3>OPTIMAL MATCHING:</h3>
+>>>>>>> cf7a2be359c0f85f340993d98b85c8e3f013eadd
   <ul>
     <li *ngFor="let w of matching; index as i" class="breadcrumb">
       <strong>Worker ID:</strong> &nbsp;&nbsp;{{ w.idWorker  }} |&nbsp;&nbsp;
-      <strong>Day: </strong>&nbsp;&nbsp; {{ w.shift }} |&nbsp;&nbsp;
-      <strong>Payrate:</strong>&nbsp;&nbsp;<span class="badge badge-secondary">&nbsp; {{ w.payrate }}</span>&nbsp;&nbsp;
+      <strong>Shift Day:</strong>&nbsp;&nbsp; {{ w.shift }} |&nbsp;&nbsp;
+      <strong>Payrate:</strong>&nbsp;&nbsp;<span class="badge badge-secondary">&nbsp; {{ w.payrate  | currency}}</span>&nbsp;&nbsp;
+
     </li>
   </ul>
 </div>
 
 
   <h3 class="alert alert-light mt-2"  *ngIf="this.msmOK"> {{ this.msmOK }}</h3>
+  <!-- <h3 class="alert alert-danger mt-2"  *ngIf="this.msmERR"> {{ this.msmERR }}</h3> -->
 
-  <div class="alert alert-success mt-2" role="alert" [hidden]="show">
-      | FROM THE SERVER API | {{this.msmOK }} |  {{this.msmERR}} |
+  <div class="alert alert-danger mt-2" role="alert" [hidden]="show">
+    BAD REQUEST:  {{this.msmERR}} |
+
   </div>
 </div>
 
