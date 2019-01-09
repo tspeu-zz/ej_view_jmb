@@ -3,8 +3,8 @@ import { map } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray, ValidatorFn } from '@angular/forms';
 import {MatSnackBar} from '@angular/material';
 import {HttpService} from '../services/http.service';
-import * as example_1 from '../model/example_1.json';
-import * as example_2 from '../model/example_2.json';
+// import * as example_1 from '../model/example_1.json';
+// import * as example_2 from '../model/example_2.json';
 
 @Component({
   selector: 'app-matching',
@@ -13,8 +13,8 @@ import * as example_2 from '../model/example_2.json';
 })
 export class MatchingComponent implements OnInit {
 
-  _URL = 'http://localhost:3003/api/matching/match';
-  // _URL = 'http://prueba-api-jmb.herokuapp.com/api/matching/match';
+  // _URL = 'http://localhost:3003/api/matching/match';
+  _URL = 'http://prueba-api-jmb.herokuapp.com/api/matching/match';
   _RESPONSE: any;
   matching: any;
   show = true;
@@ -25,14 +25,62 @@ export class MatchingComponent implements OnInit {
   shifts: any;
 
   /* INPUT DATA */
-  data1: any = example_1;
-  data: any = example_2;
+  // data1: any = example_1;
+  // data: any = example_2;
+  data = {
+    'workers': [
+      {
+      'id': 1,
+      'availability': ['Monday', 'Wednesday'],
+      'payrate': 7.50
+    },
+    {
+      'id': 2,
+      'availability': ['Monday', 'Tuesday', 'Thursday'],
+      'payrate': 9.00
+    },
+    {
+      'id': 3,
+      'availability': ['Monday', 'Friday'],
+      'payrate': 18.00
+    },
+    {
+      'id': 4,
+      'availability': ['Monday', 'Tuesday', 'Thursday'],
+      'payrate': 12.25
+    }
+  ],
+  'shifts': [
+    {
+      'id': 1,
+      'day': ['Monday']
+    },
+    {
+      'id': 2,
+      'day': ['Tuesday']
+    },
+    {
+      'id': 3,
+      'day': ['Wednesday']
+    },
+    {
+      'id': 4,
+      'day': ['Thursday']
+    }
+    ,
+    {
+      'id': 5,
+      'day': ['Friday']
+    }
+  ]};
 
   // OUT
   sendData = { 'workers': [], 'shifts': [] };
 
   matchingForm: FormGroup;
   form: FormGroup;
+  shiftControl: any;
+  workerControl: any;
 
   constructor(public snackBar: MatSnackBar, private httpService: HttpService,
               private formBuilder: FormBuilder ) {
@@ -47,7 +95,13 @@ export class MatchingComponent implements OnInit {
       workers: new FormArray(controls, this.minSelectedCheckboxes(1)),
       shifts: new FormArray(controlsShift, this.minSelectedCheckboxes(1))
     });
-    // console.log('this.form', this.form);
+    // console.log('this.form controls-> ', this.form.controls);
+
+    this.shiftControl = this.form.controls.shifts;
+    // console.log('this.shiftControl > ', this.shiftControl);
+    this.workerControl = this.form.controls.workers;
+    // console.log('this.workerControl > ', this.workerControl);
+
   }
 
   ngOnInit() {/* this.sendDataPost(this.data);*/}
@@ -61,6 +115,7 @@ export class MatchingComponent implements OnInit {
       .map((v, i) => v ? this.data.shifts[i].id : null)
       .filter(v => v !== null);
 
+// TODO REFACTOR
     for (let i = 0; i < this.data.workers.length; i++) {
         // console.log('workers', this.data.workers[i]);
         for ( let j = 0; j < selectedOrderIds.length; j++ ) {
