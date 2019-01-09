@@ -153,7 +153,7 @@ export class MatchingComponent implements OnInit {
 
   sendDataPost(data: any) {
     // this.selectedWorkers = this.matchingGroup.value;
-  // console.log('--ENVIA ----->', data);
+  console.log('--ENVIA ----->', data);
   return this.httpService
           .sendPost(data, this._URL)
           .subscribe( resp => {
